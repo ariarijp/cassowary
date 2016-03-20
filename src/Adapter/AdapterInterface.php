@@ -22,4 +22,14 @@ interface AdapterInterface
      * @return int
      */
     public static function increment($host);
+
+    /**
+     * @return array
+     */
+    public static function getBlacklist();
+
+    /**
+     * @param string $host
+     */
+    public static function addToBlacklist($host);
 }

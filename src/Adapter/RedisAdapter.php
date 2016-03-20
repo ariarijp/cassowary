@@ -4,6 +4,8 @@ namespace Cassowary\Adapter;
 
 class RedisAdapter implements AdapterInterface
 {
+    const BLACKLIST_KEY = 'blacklist';
+
     /**
      * @var \Redis
      */
@@ -36,9 +38,21 @@ class RedisAdapter implements AdapterInterface
 
     public static function increment($host)
     {
-        self::$redis->incrBy(self::$prefix.$host, 1);
+        $count = self::$redis->incrBy(self::$prefix.$host, 1);
         if (self::$redis->get(self::$prefix.$host) == 1) {
             self::$redis->setTimeout(self::$prefix.$host, self::$duration);
         }
+
+        return $count;
+    }
+
+    public static function addToBlacklist($host)
+    {
+        self::$redis->sAdd(self::$prefix. self::BLACKLIST_KEY, $host);
+    }
+
+    public static function getBlacklist()
+    {
+        return self::$redis->sMembers(self::$prefix. self::BLACKLIST_KEY);
     }
 }
