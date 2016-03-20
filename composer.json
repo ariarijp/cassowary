@@ -9,7 +9,10 @@
         "email": "takuya.arita@gmail.com",
         "homepage": "https://github.com/ariarijp"
     }],
-    "require": {},
+    "require": {
+      "php": ">=5.5",
+      "ext-redis": ">=2.2"
+    },
     "autoload": {
         "psr-4": {
             "Cassowary\\": "src/"
