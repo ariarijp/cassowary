@@ -34,7 +34,7 @@ Cassowary\Adapter\RedisAdapter::init([
 ]);
 
 while (1) {
-    Cassowary\Cassowary::kick(CASSOWARY_THRESHOLD, $_SERVER['REMOTE_HOST'], Cassowary\Adapter\RedisAdapter::class, function($host, $count) {
+    Cassowary\Cassowary::kick(CASSOWARY_THRESHOLD, $_SERVER['REMOTE_ADDR'], Cassowary\Adapter\RedisAdapter::class, function($host, $count) {
         header('HTTP/1.1 403 Forbidden');
         exit;
     });
