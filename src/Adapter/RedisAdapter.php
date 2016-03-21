@@ -24,7 +24,11 @@ class RedisAdapter implements AdapterInterface
     public static function init(array $params)
     {
         $redis = new \Redis();
-        $redis->connect($params['host'], $params['port']);
+        if (array_key_exists('socket', $params)) {
+            $redis->connect($params['socket']);
+        } else {
+            $redis->connect($params['host'], $params['port']);
+        }
         $redis->select($params['index']);
         self::$redis = $redis;
         self::$prefix = $params['prefix'];
@@ -33,14 +37,14 @@ class RedisAdapter implements AdapterInterface
 
     public static function getCount($host)
     {
-        return self::$redis->get(self::$prefix.$host);
+        return self::$redis->get(self::$prefix. $host);
     }
 
     public static function increment($host)
     {
-        $count = self::$redis->incrBy(self::$prefix.$host, 1);
-        if (self::$redis->get(self::$prefix.$host) == 1) {
-            self::$redis->setTimeout(self::$prefix.$host, self::$duration);
+        $count = self::$redis->incrBy(self::$prefix. $host, 1);
+        if (self::$redis->get(self::$prefix. $host) == 1) {
+            self::$redis->setTimeout(self::$prefix. $host, self::$duration);
         }
 
         return $count;
