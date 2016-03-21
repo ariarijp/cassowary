@@ -2,27 +2,17 @@
 
 namespace Cassowary\Adapter;
 
-class RedisAdapter implements AdapterInterface
+class RedisAdapter extends AbstractAdapter
 {
-    const BLACKLIST_KEY = 'blacklist';
-
     /**
      * @var \Redis
      */
     private static $redis;
 
-    /**
-     * @var string
-     */
-    private static $prefix;
-
-    /**
-     * @var int
-     */
-    private static $ttl;
-
     public static function init(array $params)
     {
+        parent::init($params);
+
         $redis = new \Redis();
         if (array_key_exists('socket', $params)) {
             $redis->connect($params['socket']);
@@ -31,8 +21,6 @@ class RedisAdapter implements AdapterInterface
         }
         $redis->select($params['index']);
         self::$redis = $redis;
-        self::$prefix = $params['prefix'];
-        self::$ttl = $params['ttl'];
     }
 
     public static function getCount($host)

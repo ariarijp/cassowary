@@ -2,26 +2,8 @@
 
 namespace Cassowary\Adapter;
 
-class ApcuAdapter implements AdapterInterface
+class ApcuAdapter extends AbstractAdapter
 {
-    const BLACKLIST_KEY = 'blacklist';
-
-    /**
-     * @var string
-     */
-    private static $prefix;
-
-    /**
-     * @var int
-     */
-    private static $ttl;
-
-    public static function init(array $params)
-    {
-        self::$prefix = $params['prefix'];
-        self::$ttl = $params['ttl'];
-    }
-
     public static function getCount($host)
     {
         return apcu_fetch(self::$prefix. $host);
