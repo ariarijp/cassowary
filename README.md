@@ -27,7 +27,7 @@ Cassowary\Adapter\RedisAdapter::init([
     'port' => 6379,
     'prefix' => 'cassowary_',
     'index' => 9,
-    'duration' => 10,
+    'ttl' => 10,
 ]);
 
 Cassowary\Cassowary::kick(CASSOWARY_THRESHOLD, $_SERVER['REMOTE_ADDR'], Cassowary\Adapter\RedisAdapter::class, function($host, $count) {

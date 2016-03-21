@@ -19,7 +19,7 @@ class RedisAdapter implements AdapterInterface
     /**
      * @var int
      */
-    private static $duration;
+    private static $ttl;
 
     public static function init(array $params)
     {
@@ -32,7 +32,7 @@ class RedisAdapter implements AdapterInterface
         $redis->select($params['index']);
         self::$redis = $redis;
         self::$prefix = $params['prefix'];
-        self::$duration = $params['duration'];
+        self::$ttl = $params['ttl'];
     }
 
     public static function getCount($host)
@@ -44,7 +44,7 @@ class RedisAdapter implements AdapterInterface
     {
         $count = self::$redis->incrBy(self::$prefix. $host, 1);
         if (self::$redis->get(self::$prefix. $host) == 1) {
-            self::$redis->setTimeout(self::$prefix. $host, self::$duration);
+            self::$redis->setTimeout(self::$prefix. $host, self::$ttl);
         }
 
         return $count;

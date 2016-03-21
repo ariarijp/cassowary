@@ -14,12 +14,12 @@ class ApcuAdapter implements AdapterInterface
     /**
      * @var int
      */
-    private static $duration;
+    private static $ttl;
 
     public static function init(array $params)
     {
         self::$prefix = $params['prefix'];
-        self::$duration = $params['duration'];
+        self::$ttl = $params['ttl'];
     }
 
     public static function getCount($host)
@@ -30,7 +30,7 @@ class ApcuAdapter implements AdapterInterface
     public static function increment($host)
     {
         if (!apcu_exists(self::$prefix. $host)) {
-            apcu_store(self::$prefix. $host, 0, self::$duration);
+            apcu_store(self::$prefix. $host, 0, self::$ttl);
         }
 
         apcu_inc(self::$prefix. $host);
