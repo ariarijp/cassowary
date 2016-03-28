@@ -47,4 +47,9 @@ class RedisAdapter extends AbstractAdapter
     {
         return self::$redis->sMembers(self::$prefix. self::BLACKLIST_KEY);
     }
+
+    public static function clearBlacklist()
+    {
+        self::$redis->del(self::$prefix. self::BLACKLIST_KEY);
+    }
 }

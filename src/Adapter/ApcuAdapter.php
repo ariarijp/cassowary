@@ -40,4 +40,9 @@ class ApcuAdapter extends AbstractAdapter
 
         return $blacklist;
     }
+
+    public static function clearBlacklist()
+    {
+        apcu_store(self::$prefix. self::BLACKLIST_KEY, []);
+    }
 }

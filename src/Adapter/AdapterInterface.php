@@ -32,4 +32,6 @@ interface AdapterInterface
      * @param string $host
      */
     public static function addToBlacklist($host);
+
+    public static function clearBlacklist();
 }
