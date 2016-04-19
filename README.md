@@ -32,7 +32,9 @@ Cassowary\Adapter\RedisAdapter::init([
     'ttl' => 10,
 ]);
 
-Cassowary\Cassowary::kick(CASSOWARY_THRESHOLD, $_SERVER['REMOTE_ADDR'], Cassowary\Adapter\RedisAdapter::class, function($host, $count) {
+Cassowary\Cassowary::kick(CASSOWARY_THRESHOLD, $_SERVER['REMOTE_ADDR'], Cassowary\Adapter\RedisAdapter::class, function($host) {
+    error_log($host. ' added to blacklist.');
+}, function($host, $count) {
     header('HTTP/1.1 403 Forbidden');
     exit;
 });
@@ -52,7 +54,9 @@ Cassowary\Adapter\ApcuAdapter::init([
     'ttl' => 10,
 ]);
 
-Cassowary\Cassowary::kick(CASSOWARY_THRESHOLD, $_SERVER['REMOTE_ADDR'], Cassowary\Adapter\ApcuAdapter::class, function($host, $count) {
+Cassowary\Cassowary::kick(CASSOWARY_THRESHOLD, $_SERVER['REMOTE_ADDR'], Cassowary\Adapter\ApcuAdapter::class, function($host) {
+    error_log($host. ' added to blacklist.');
+}, function($host, $count) {
     header('HTTP/1.1 403 Forbidden');
     exit;
 });

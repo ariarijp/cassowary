@@ -8,19 +8,21 @@ class Cassowary
      * @param int      $threshold
      * @param string   $host
      * @param string   $className
-     * @param callable $closure
+     * @param callable $addToBlacklistClosure
+     * @param callable $isBlacklistedClosure
      */
-    public static function kick($threshold, $host, $className, callable $closure)
+    public static function kick($threshold, $host, $className, callable $beforeAddToBlacklistClosure, callable $kickedClosure)
     {
         $count = $className::increment($host);
         if ($count >= $threshold) {
+            $beforeAddToBlacklistClosure($host);
             $className::addToBlacklist($host);
         }
 
         $blacklist = self::getBlacklist($className);
 
         if (in_array($host, $blacklist)) {
-            $closure($host, $count);
+            $kickedClosure($host, $count);
         }
     }
 
