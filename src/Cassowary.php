@@ -14,14 +14,17 @@ class Cassowary
     public static function kick($threshold, $host, $className, callable $beforeAddToBlacklistClosure, callable $kickedClosure)
     {
         $count = $className::increment($host);
-        if ($count >= $threshold) {
-            $beforeAddToBlacklistClosure($host);
-            $className::addToBlacklist($host);
-        }
-
         $blacklist = self::getBlacklist($className);
 
         if (in_array($host, $blacklist)) {
+            $kickedClosure($host, $count);
+
+            return;
+        }
+
+        if ($count >= $threshold) {
+            $beforeAddToBlacklistClosure($host);
+            $className::addToBlacklist($host);
             $kickedClosure($host, $count);
         }
     }
