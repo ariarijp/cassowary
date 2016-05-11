@@ -5,12 +5,12 @@
     "keywords": ["firewall"],
     "license": "MIT",
     "authors": [{
-        "name": "Takuya Arita",
+        "name": "ariarijp",
         "email": "takuya.arita@gmail.com",
         "homepage": "https://github.com/ariarijp"
     }],
     "require": {
-      "php": ">=5.5",
+        "php": ">=5.5"
     },
     "autoload": {
         "psr-4": {
